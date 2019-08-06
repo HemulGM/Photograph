@@ -27,14 +27,13 @@ object FormMain: TFormMain
     TabOrder = 0
     Visible = False
   end
-  object DrawPanel1: TDrawPanel
+  object DrawPanelCapture: TDrawPanel
     Left = 0
     Top = 33
     Width = 387
     Height = 487
-    Caption = 'Panel1'
     DefaultPaint = False
-    OnPaint = DrawPanel1Paint
+    OnPaint = DrawPanelCapturePaint
     RepaintOnMouseMove = False
     Align = alClient
     Color = clBlack
@@ -42,9 +41,6 @@ object FormMain: TFormMain
     ParentBackground = False
     ParentDoubleBuffered = False
     TabOrder = 1
-    ExplicitTop = 0
-    ExplicitWidth = 457
-    ExplicitHeight = 665
   end
   object Panel1: TPanel
     Left = 0
@@ -56,9 +52,6 @@ object FormMain: TFormMain
     Color = 1841179
     ParentBackground = False
     TabOrder = 2
-    ExplicitLeft = 1
-    ExplicitTop = 568
-    ExplicitWidth = 455
     DesignSize = (
       387
       96)
@@ -114,7 +107,6 @@ object FormMain: TFormMain
       SubTextFont.Name = 'Tahoma'
       SubTextFont.Style = []
       EllipseAnimate = False
-      ExplicitLeft = 192
     end
     object ButtonFlatPorps: TButtonFlat
       Left = 294
@@ -157,7 +149,6 @@ object FormMain: TFormMain
       SubTextFont.Height = -13
       SubTextFont.Name = 'Tahoma'
       SubTextFont.Style = []
-      ExplicitLeft = 364
     end
     object ButtonFlatTurn: TButtonFlat
       Left = 333
@@ -200,7 +191,6 @@ object FormMain: TFormMain
       SubTextFont.Height = -13
       SubTextFont.Name = 'Tahoma'
       SubTextFont.Style = []
-      ExplicitLeft = 403
     end
   end
   object Panel2: TPanel
@@ -254,9 +244,6 @@ object FormMain: TFormMain
       SubTextFont.Height = -13
       SubTextFont.Name = 'Tahoma'
       SubTextFont.Style = []
-      ExplicitLeft = 1
-      ExplicitTop = 1
-      ExplicitHeight = 30
     end
     object ButtonFlatChangeCam: TButtonFlat
       Left = 354
@@ -299,7 +286,6 @@ object FormMain: TFormMain
       SubTextFont.Height = -13
       SubTextFont.Name = 'Tahoma'
       SubTextFont.Style = []
-      ExplicitLeft = 8
     end
   end
   object ImageList24: TImageList
@@ -309,7 +295,7 @@ object FormMain: TFormMain
     Left = 104
     Top = 160
     Bitmap = {
-      494C0101050008001C0018001800FFFFFFFF2100FFFFFFFFFFFFFFFF424D3600
+      494C010105000800200018001800FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000600000003000000001002000000000000048
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -907,6 +893,7 @@ object FormMain: TFormMain
       FFFF03FFF0F0C7F8000FFC01FFFF01FFF861C7F8000FF801FFFF01FFFC038FF8
       000FF000FFFF00FFFE000FFFFC7FF100FFFF00FFFF001FFFFFFFFF007FFF007F
       FFE07FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
-      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF}
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00000000000000000000000000000000
+      000000000000}
   end
 end

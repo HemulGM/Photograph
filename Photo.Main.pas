@@ -6,13 +6,13 @@ uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants,
   System.Classes, Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs,
   directshow9, ActiveX, Jpeg, WinInet, IniFiles, Vcl.StdCtrls, Vcl.ExtCtrls,
-  System.Generics.Collections, acPNG, HGM.Controls.PanelExt, HGM.Button,
-  System.ImageList, Vcl.ImgList;
+  System.Generics.Collections, HGM.Controls.PanelExt, HGM.Button,
+  System.ImageList, Vcl.ImgList, Vcl.Imaging.pngimage;
 
 type
   TFormMain = class(TForm, ISampleGrabberCB)
     ListBoxCams: TListBox;
-    DrawPanel1: TDrawPanel;
+    DrawPanelCapture: TDrawPanel;
     Panel1: TPanel;
     ButtonFlatPhoto: TButtonFlat;
     ImageLastPhoto: TImage;
@@ -25,7 +25,7 @@ type
     procedure ListBox1DblClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure DrawPanel1Paint(Sender: TObject);
+    procedure DrawPanelCapturePaint(Sender: TObject);
     procedure ButtonFlatPhotoClick(Sender: TObject);
     procedure ButtonFlatPorpsClick(Sender: TObject);
     procedure ButtonFlatTurnClick(Sender: TObject);
@@ -41,6 +41,7 @@ type
     FDoFlash: Boolean;
     FSavePath: string;
     FLastFileName: string;
+    FLogo: TPNGObject;
     //Интерфейсы
     FCaptureGraphBuilder: ICaptureGraphBuilder2;
     FMediaControl: IMediaControl;
@@ -203,29 +204,35 @@ begin
   FMediaControl.Run();
 end;
 
-procedure TFormMain.DrawPanel1Paint(Sender: TObject);
+procedure TFormMain.DrawPanelCapturePaint(Sender: TObject);
 var
   FRect: TRect;
 begin
   if DoPhoto then
   begin
-    DrawPanel1.Canvas.Brush.Color := clWhite;
-    DrawPanel1.Canvas.FillRect(DrawPanel1.ClientRect);
+    DrawPanelCapture.Canvas.Brush.Color := clWhite;
+    DrawPanelCapture.Canvas.FillRect(DrawPanelCapture.ClientRect);
     Exit;
   end;
   if not Bitmap.Empty then
   begin
-    FRect := DrawPanel1.ClientRect;
+    FRect := DrawPanelCapture.ClientRect;
 
     FRect.Width := Round(FRect.Height * (Bitmap.Width / Bitmap.Height));
-    if FRect.Width < DrawPanel1.ClientRect.Width then
+    if FRect.Width < DrawPanelCapture.ClientRect.Width then
     begin
-      FRect.Width := DrawPanel1.ClientRect.Width;
+      FRect.Width := DrawPanelCapture.ClientRect.Width;
       FRect.Height := Round(FRect.Width * (Bitmap.Height / Bitmap.Width));
     end;
 
-    FRect.Offset(DrawPanel1.ClientRect.Width div 2 - FRect.Width div 2, DrawPanel1.ClientRect.Height div 2 - FRect.Height div 2);
-    DrawPanel1.Canvas.StretchDraw(FRect, Bitmap);
+    FRect.Offset(DrawPanelCapture.ClientRect.Width div 2 - FRect.Width div 2, DrawPanelCapture.ClientRect.Height div 2 - FRect.Height div 2);
+    DrawPanelCapture.Canvas.StretchDraw(FRect, Bitmap);
+  end
+  else
+  begin
+    DrawPanelCapture.Canvas.Brush.Color := $001050DA;
+    DrawPanelCapture.Canvas.FillRect(DrawPanelCapture.ClientRect);
+    DrawPanelCapture.Canvas.Draw(DrawPanelCapture.ClientRect.CenterPoint.X - Flogo.Width div 2, DrawPanelCapture.ClientRect.CenterPoint.Y - Flogo.Height div 2, FLogo);
   end;
 end;
 
@@ -382,7 +389,7 @@ begin
   if FDoFlash then
   begin
     DoPhoto := True;
-    DrawPanel1.Repaint;
+    DrawPanelCapture.Repaint;
     TS := GetTickCount + 1500;
     while TS > GetTickCount do
       Application.ProcessMessages;
@@ -390,7 +397,7 @@ begin
   else
   begin
     DoPhoto := True;
-    DrawPanel1.Repaint;
+    DrawPanelCapture.Repaint;
     DoPhoto := False;
   end;
   with CreatePhoto do
@@ -409,6 +416,8 @@ end;
 procedure TFormMain.FormCreate(Sender: TObject);
 begin
   FAppClosing := False;
+  FLogo := TPNGObject.Create;
+  FLogo.LoadFromResourceName(HInstance, 'logo');
   FDoFlash := ButtonFlatFlash.ImageIndex = 3;
   Bitmap := TBitmap.Create;
   Monikers := TList<IMoniker>.Create;
@@ -432,6 +441,7 @@ begin
   end
   else
     ShowMessage('Внимание! Камера не обнаружена.');
+  DrawPanelCapture.Repaint;
 end;
 
 procedure TFormMain.FormDestroy(Sender: TObject);
@@ -445,6 +455,7 @@ begin
   SaveSettings;
   IniFile.Free;
   Bitmap.Free;
+  FLogo.Free;
 end;
 
 procedure TFormMain.ListBox1DblClick(Sender: TObject);
@@ -493,7 +504,7 @@ begin
       Result := E_FAIL;
     end;
     //DeleteObject(HBMP);
-    DrawPanel1.Repaint;
+    DrawPanelCapture.Repaint;
   end;
 end;
 

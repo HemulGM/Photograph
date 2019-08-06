@@ -106,6 +106,10 @@
             <Form>FormMain</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <RcItem Include="logo.png">
+            <ResourceType>RCDATA</ResourceType>
+            <ResourceId>logo</ResourceId>
+        </RcItem>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -127,6 +131,8 @@
                     <Source Name="MainSource">Photograph.dpr</Source>
                 </Source>
                 <Excluded_Packages>
+                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\18.0\Bpl\AlphaDBDX10Berlin.bpl">AlphaControls DB-aware pack</Excluded_Packages>
+                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\18.0\Bpl\acntDX10Berlin.bpl">AlphaControls</Excluded_Packages>
                     <Excluded_Packages Name="C:\Users\Геннадий\Desktop\pascalscript-master\Dcu\D24\win32\PascalScript_Core_D24.bpl">File C:\Users\Геннадий\Desktop\pascalscript-master\Dcu\D24\win32\PascalScript_Core_D24.bpl not found</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dcloffice2k240.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dclofficexp240.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
@@ -136,6 +142,12 @@
                 <DeployFile LocalName="Win32\Debug\Photograph.exe" Configuration="Debug" Class="ProjectOutput">
                     <Platform Name="Win32">
                         <RemoteName>Photograph.exe</RemoteName>
+                        <Overwrite>true</Overwrite>
+                    </Platform>
+                </DeployFile>
+                <DeployFile LocalName="logo.png" Configuration="Debug" Class="ProjectFile">
+                    <Platform Name="Win32">
+                        <RemoteDir>.\</RemoteDir>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
